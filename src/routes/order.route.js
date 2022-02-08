@@ -6,6 +6,7 @@ const router = Router();
 
 router.route("/").post(auth.user, orderCtrl.createOrder);
 router.route("/").get(orderCtrl.getAllOrder);
+router.route("/income").get(orderCtrl.income);
 router
   .route("/:id")
   .get(orderCtrl.getByIdOrder)
