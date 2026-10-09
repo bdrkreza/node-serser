@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const { userRoute, orderRoute, productRoute } = require("./routes");
+const { userRoute, orderRoute, productRoute, cartRoute } = require("./routes");
 const { notFoutRoute, errorHandler } = require("./utils/errorHandler");
 const connectMongoDB = require("./mongodb");
 
@@ -31,7 +31,7 @@ app.get("/", function (req, res) {
 app.use("/user", userRoute);
 app.use("/order", orderRoute);
 app.use("/product", productRoute);
-
+app.use("/cart", cartRoute);
 // default error handler
 app.use(errorHandler);
 app.use(notFoutRoute);

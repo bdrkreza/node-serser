@@ -7,8 +7,7 @@ module.exports = {
 
     if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      console.log(err);
+    jwt.verify(token, process.env.JWT_SECRET, (err, { user }) => {
       if (err) return res.sendStatus(403);
       req.user = user;
       next();
@@ -17,19 +16,17 @@ module.exports = {
 
   admin: async (req, res, next) => {
     try {
-      const user = await UserModel.findOne({
-        _id: req.user.id
-      });
-      if (user.role !== "admin" && user.email === req.user.email) {
+      const user = await UserModel.findById({ _id: req.user._id });
+      if (user.role !== "admin") {
         // assuming you pass user info
-        return res.status(403).json({
+        res.status(403).json({
           status: "fail",
           message: "Unauthorized to access this route"
         });
       }
       next();
     } catch (error) {
-      return res.status(400).json({ message: "Authentication failure!" });
+      res.status(400).json({ message: "Authentication failure!" });
     }
   }
 };
